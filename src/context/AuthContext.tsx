@@ -1,13 +1,20 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { authAPI } from '../lib/api';
 import { User } from '../types';
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
+  loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
   updateProfile: (userData: Partial<User>) => void;
+}
+
+interface AuthResponse {
+  user: User;
+  token: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -15,90 +22,126 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  // Check for stored auth on component mount
   useEffect(() => {
-    // Check if user is already logged in from local storage
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      try {
-        const userData = JSON.parse(storedUser);
-        setUser(userData);
-        setIsAuthenticated(true);
-      } catch (error) {
-        // Clear invalid data
-        localStorage.removeItem('user');
+    const initAuth = async () => {
+      const storedUser = localStorage.getItem('user');
+      const token = localStorage.getItem('token');
+      
+      if (storedUser && token) {
+        try {
+          // Verify token with backend
+          const response = await authAPI.getProfile();
+          if (response.success && response.data) {
+            setUser(response.data as User);
+            setIsAuthenticated(true);
+          } else {
+            // Invalid token, clear storage
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+          }
+        } catch (error) {
+          console.error('Auth verification failed:', error);
+          localStorage.removeItem('user');
+          localStorage.removeItem('token');
+        }
       }
-    }
+      setLoading(false);
+    };
+
+    initAuth();
   }, []);
 
   const login = async (email: string, password: string) => {
-    // Mock login - would be replaced with actual API call
-    return new Promise<void>((resolve, reject) => {
-      setTimeout(() => {
-        // Simulate successful login
-        if (email && password) {
-          const mockUser: User = {
-            id: '1',
-            name: email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1),
-            email,
-            phone: '9841000000',
-            addresses: [],
-            orders: []
-          };
-          
-          setUser(mockUser);
-          setIsAuthenticated(true);
-          localStorage.setItem('user', JSON.stringify(mockUser));
-          resolve();
-        } else {
-          reject(new Error('Invalid credentials'));
-        }
-      }, 1000);
-    });
-  };
-
-  const register = async (name: string, email: string, password: string) => {
-    // Mock registration - would be replaced with actual API call
-    return new Promise<void>((resolve, reject) => {
-      setTimeout(() => {
-        if (name && email && password) {
-          const mockUser: User = {
-            id: Date.now().toString(),
-            name,
-            email,
-            addresses: [],
-            orders: []
-          };
-          
-          setUser(mockUser);
-          setIsAuthenticated(true);
-          localStorage.setItem('user', JSON.stringify(mockUser));
-          resolve();
-        } else {
-          reject(new Error('Invalid registration information'));
-        }
-      }, 1000);
-    });
-  };
-
-  const updateProfile = (userData: Partial<User>) => {
-    if (user) {
-      const updatedUser = { ...user, ...userData };
-      setUser(updatedUser);
-      localStorage.setItem('user', JSON.stringify(updatedUser));
+    try {
+      setLoading(true);
+      const response = await authAPI.login(email, password);
+      
+      if (response.success && response.data) {
+        const authData = response.data as AuthResponse;
+        
+        setUser(authData.user);
+        setIsAuthenticated(true);
+        localStorage.setItem('user', JSON.stringify(authData.user));
+        localStorage.setItem('token', authData.token);
+      } else {
+        throw new Error(response.message || 'Login failed');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
-  const logout = () => {
-    setUser(null);
-    setIsAuthenticated(false);
-    localStorage.removeItem('user');
+  const register = async (name: string, email: string, password: string) => {
+    try {
+      setLoading(true);
+      const response = await authAPI.register(name, email, password);
+      
+      if (response.success && response.data) {
+        const authData = response.data as AuthResponse;
+        
+        setUser(authData.user);
+        setIsAuthenticated(true);
+        localStorage.setItem('user', JSON.stringify(authData.user));
+        localStorage.setItem('token', authData.token);
+      } else {
+        throw new Error(response.message || 'Registration failed');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
   };
 
-  return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, register, logout, updateProfile }}>
-      {children}
-    </AuthContext.Provider>
+  const updateProfile = async (userData: Partial<User>) => {
+    try {
+      const response = await authAPI.updateProfile(userData);
+      
+      if (response.success && response.data) {
+        const updatedUser = { ...user, ...response.data } as User;
+        setUser(updatedUser);
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+      }
+    } catch (error) {
+      console.error('Profile update error:', error);
+      throw error;
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await authAPI.logout();
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      setUser(null);
+      setIsAuthenticated(false);
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+    }
+  };
+
+  return React.createElement(
+    AuthContext.Provider,
+    { 
+      value: { 
+        user, 
+        isAuthenticated, 
+        loading,
+        login, 
+        register, 
+        logout, 
+        updateProfile 
+      }
+    },
+    children
   );
 };
 
