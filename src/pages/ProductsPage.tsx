@@ -9,7 +9,7 @@ import { categories } from '../components/layout/Layout';
 
 const ProductsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();  
   const [products, setProducts] = useState<Product[]>([]);
   const [filtersOpen, setFiltersOpen] = useState(false);
   
