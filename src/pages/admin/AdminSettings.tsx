@@ -18,9 +18,9 @@ const AdminSettings: React.FC = () => {
   
   const [settings, setSettings] = useState({
     // Store Information
-    storeName: 'TechBazaar',
-    storeDescription: "Nepal's leading online store for technology products",
-    storeEmail: 'info@techbazaar.com.np',
+    storeName: 'CraftWorks',
+    storeDescription: "Nepal's leading online store for tools and furniture",
+    storeEmail: 'info@craftworks.com.np',
     storePhone: '+977 01-4567890',
     storeAddress: 'Newroad, Kathmandu, Nepal',
     
@@ -47,9 +47,9 @@ const AdminSettings: React.FC = () => {
     lowStockNotifications: true,
     
     // SEO Settings
-    metaTitle: 'TechBazaar - Nepal\'s Premium Tech Store',
-    metaDescription: 'Shop the latest smartphones, laptops, and electronics with fast delivery across Nepal.',
-    metaKeywords: 'electronics, smartphones, laptops, Nepal, online shopping'
+    metaTitle: 'CraftWorks - Nepal\'s Premium Tool & Furniture Store',
+    metaDescription: 'Shop quality woodworking tools, furniture, and workshop equipment with fast delivery across Nepal.',
+    metaKeywords: 'tools, furniture, woodworking, workshop, Nepal, online shopping'
   });
   
   const handleInputChange = (field: string, value: any) => {

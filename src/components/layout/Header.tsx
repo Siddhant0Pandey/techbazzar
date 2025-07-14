@@ -115,7 +115,7 @@ const Header: React.FC<HeaderProps> = ({ categories }) => {
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <ShoppingCart className="h-8 w-8 text-primary" />
-            <span className="ml-2 text-xl font-bold text-foreground">TechBazaar</span>
+                            <span className="ml-2 text-xl font-bold text-foreground">CraftWorks</span>
           </Link>
           
           {/* Search Bar - Desktop */}

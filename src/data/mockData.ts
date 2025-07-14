@@ -3,303 +3,281 @@ import { Product, Category } from '../types';
 export const featuredProducts: Product[] = [
   {
     id: '1',
-    title: 'iPhone 15 Pro',
-    titleNp: 'आईफोन १५ प्रो',
-    slug: 'iphone-15-pro',
-    description: 'The latest iPhone with A17 Pro chip, 48MP camera system, and titanium design.',
-    descriptionNp: 'नवीनतम A17 प्रो चिप, 48MP क्यामेरा सिस्टम, र टाइटेनियम डिजाइन भएको नवीनतम आईफोन।',
-    price: 175000,
-    discountPrice: 169999,
+    title: 'Professional Circular Saw',
+    titleNp: 'व्यावसायिक गोलाकार आरा',
+    slug: 'professional-circular-saw',
+    description: 'High-precision 7.25" circular saw with laser guide, perfect for furniture making and carpentry projects.',
+    descriptionNp: 'फर्निचर निर्माण र बढईगिरीका लागि उत्तम लेजर गाइड भएको उच्च-सटिक ७.२५" गोलाकार आरा।',
+    price: 15000,
+    discountPrice: 12999,
     images: [
-      'https://images.pexels.com/photos/1647976/pexels-photo-1647976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      'https://images.pexels.com/photos/404280/pexels-photo-404280.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+      'https://images.pexels.com/photos/209235/pexels-photo-209235.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      'https://images.pexels.com/photos/162553/tools-saw-blade-workshop-162553.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
     ],
-    category: 'smartphones',
-    brand: 'Apple',
+    category: 'power-tools',
+    brand: 'DeWalt',
     inStock: true,
     stockQuantity: 15,
     specifications: {
-      display: '6.1-inch Super Retina XDR',
-      processor: 'A17 Pro chip',
-      camera: '48MP main camera',
-      storage: '256GB',
-      battery: 'Up to 23 hours'
+      'blade-size': '7.25 inches',
+      'motor-power': '15 Amp',
+      'cutting-depth': '2-9/16 inches',
+      'weight': '8.8 lbs',
+      'features': 'Laser guide, dust port'
     },
     rating: 4.8,
     reviewCount: 156,
-    tags: ['apple', 'iphone', 'premium'],
+    tags: ['dewalt', 'circular-saw', 'power-tools'],
     isNew: true,
     isFeatured: true
   },
   {
     id: '2',
-    title: 'Samsung Galaxy S23 Ultra',
-    titleNp: 'स्यामसङ ग्यालेक्सी एस२३ अल्ट्रा',
-    slug: 'samsung-galaxy-s23-ultra',
-    description: 'Experience groundbreaking zoom with 200MP camera and S Pen functionality.',
-    descriptionNp: '200MP क्यामेरा र S पेन कार्यक्षमता भएको अत्याधुनिक ज़ूम अनुभव गर्नुहोस्।',
-    price: 165000,
-    discountPrice: 158000,
+    title: 'Premium Chisel Set',
+    titleNp: 'प्रिमियम छेनी सेट',
+    slug: 'premium-chisel-set',
+    description: 'Professional 6-piece wood chisel set with ergonomic handles, ideal for detailed woodworking.',
+    descriptionNp: 'विस्तृत काठको काममा आदर्श एर्गोनोमिक ह्यान्डल भएको व्यावसायिक ६-टुक्रा काठको छेनी सेट।',
+    price: 8500,
+    discountPrice: 7200,
     images: [
-      'https://images.pexels.com/photos/4071887/pexels-photo-4071887.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      'https://images.pexels.com/photos/11772533/pexels-photo-11772533.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+      'https://images.pexels.com/photos/5974028/pexels-photo-5974028.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      'https://images.pexels.com/photos/209235/pexels-photo-209235.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
     ],
-    category: 'smartphones',
-    brand: 'Samsung',
+    category: 'hand-tools',
+    brand: 'Stanley',
     inStock: true,
     stockQuantity: 20,
     specifications: {
-      display: '6.8-inch Dynamic AMOLED 2X',
-      processor: 'Snapdragon 8 Gen 2',
-      camera: '200MP main camera',
-      storage: '256GB',
-      battery: '5000mAh'
-    },
-    rating: 4.7,
-    reviewCount: 142,
-    tags: ['samsung', 'galaxy', 'premium'],
-    isFeatured: true
-  },
-  {
-    id: '3',
-    title: 'MacBook Air M2',
-    titleNp: 'म्याकबुक एयर एम२',
-    slug: 'macbook-air-m2',
-    description: 'Redesigned with the powerful M2 chip for incredible performance and battery life.',
-    descriptionNp: 'अविश्वसनीय प्रदर्शन र ब्याट्री लाइफको लागि शक्तिशाली M2 चिपको साथ पुन: डिजाइन।',
-    price: 190000,
-    images: [
-      'https://images.pexels.com/photos/812264/pexels-photo-812264.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      'https://images.pexels.com/photos/4260477/pexels-photo-4260477.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
-    ],
-    category: 'laptops',
-    brand: 'Apple',
-    inStock: true,
-    stockQuantity: 8,
-    specifications: {
-      display: '13.6-inch Liquid Retina',
-      processor: 'Apple M2 chip',
-      ram: '8GB unified memory',
-      storage: '256GB SSD',
-      battery: 'Up to 18 hours'
-    },
-    rating: 4.9,
-    reviewCount: 87,
-    tags: ['apple', 'macbook', 'laptop'],
-    isFeatured: true
-  },
-  {
-    id: '4',
-    title: 'Sony WH-1000XM5',
-    titleNp: 'सोनी WH-१०००XM५',
-    slug: 'sony-wh-1000xm5',
-    description: 'Industry-leading noise cancellation with exceptional sound quality.',
-    descriptionNp: 'उत्कृष्ट साउन्ड गुणस्तरको साथ उद्योग-अग्रणी नोइज क्यान्सलेसन।',
-    price: 65000,
-    discountPrice: 59999,
-    images: [
-      'https://images.pexels.com/photos/8534088/pexels-photo-8534088.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      'https://images.pexels.com/photos/3394666/pexels-photo-3394666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
-    ],
-    category: 'headphones',
-    brand: 'Sony',
-    inStock: true,
-    stockQuantity: 25,
-    specifications: {
-      type: 'Over-ear wireless headphones',
-      noiseCancellation: 'Industry-leading',
-      battery: 'Up to 30 hours',
-      connectivity: 'Bluetooth 5.2, 3.5mm',
-      charging: 'USB-C'
+      'blade-size': '7.25 inches',
+      'motor-power': '15 Amp',
+      'cutting-depth': '2-9/16 inches',
+      'weight': '8.8 lbs',
+      'features': 'Laser guide, dust port'
     },
     rating: 4.8,
-    reviewCount: 104,
-    tags: ['sony', 'headphones', 'premium'],
-    isFeatured: true
-  },
-  {
-    id: '5',
-    title: 'Dell XPS 15',
-    titleNp: 'डेल XPS १५',
-    slug: 'dell-xps-15',
-    description: 'Premium ultrabook with InfinityEdge display and powerful performance.',
-    descriptionNp: 'इन्फिनिटी एज डिस्प्ले र शक्तिशाली प्रदर्शन भएको प्रिमियम अल्ट्राबुक।',
-    price: 225000,
-    discountPrice: 210000,
-    images: [
-      'https://images.pexels.com/photos/205421/pexels-photo-205421.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      'https://images.pexels.com/photos/7974/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
-    ],
-    category: 'laptops',
-    brand: 'Dell',
-    inStock: true,
-    stockQuantity: 5,
-    specifications: {
-      display: '15.6-inch 4K OLED',
-      processor: 'Intel Core i7-12700H',
-      ram: '16GB DDR5',
-      storage: '1TB SSD',
-      graphics: 'NVIDIA RTX 3050 Ti'
-    },
-    rating: 4.7,
-    reviewCount: 63,
-    tags: ['dell', 'xps', 'premium'],
+    reviewCount: 156,
+    tags: ['dewalt', 'circular-saw', 'power-tools'],
     isNew: true,
     isFeatured: true
   },
   {
-    id: '6',
-    title: 'Apple AirPods Pro 2',
-    titleNp: 'एप्पल एयरपड्स प्रो २',
-    slug: 'apple-airpods-pro-2',
-    description: 'Active Noise Cancellation, Transparency mode, and personalized Spatial Audio.',
-    descriptionNp: 'एक्टिभ नोइज क्यान्सलेसन, ट्रान्सपेरेन्सी मोड, र व्यक्तिगत स्पेशल अडियो।',
-    price: 42000,
-    discountPrice: 38999,
+    id: '3',
+    title: 'Cordless Drill Driver Kit',
+    titleNp: 'कर्डलेस ड्रिल ड्राइभर किट',
+    slug: 'cordless-drill-driver-kit',
+    description: '20V MAX cordless drill with 2 batteries, charger, and carrying case. Perfect for furniture assembly.',
+    descriptionNp: '२ ब्याट्री, चार्जर र क्यारींग केस सहित २०V MAX कर्डलेस ड्रिल। फर्निचर एसेम्बलीका लागि उत्तम।',
+    price: 12000,
+    discountPrice: 10500,
     images: [
-      'https://images.pexels.com/photos/3780681/pexels-photo-3780681.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      'https://images.pexels.com/photos/4158/apple-iphone-smartphone-desk.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+      'https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      'https://images.pexels.com/photos/1251176/pexels-photo-1251176.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
     ],
-    category: 'headphones',
-    brand: 'Apple',
-    inStock: true,
-    stockQuantity: 30,
-    specifications: {
-      type: 'True wireless earbuds',
-      noiseCancellation: 'Active Noise Cancellation',
-      battery: 'Up to 6 hours (30 hours with case)',
-      connectivity: 'Bluetooth 5.3',
-      charging: 'USB-C, Wireless'
-    },
-    rating: 4.8,
-    reviewCount: 218,
-    tags: ['apple', 'airpods', 'wireless'],
-    isFeatured: true
-  }
-];
-
-export const newArrivals: Product[] = [
-  {
-    id: '7',
-    title: 'Nothing Phone (2)',
-    titleNp: 'नथिङ्ग फोन (२)',
-    slug: 'nothing-phone-2',
-    description: 'Innovative smartphone with Glyph Interface and clean Android experience.',
-    descriptionNp: 'ग्लिफ इन्टरफेस र क्लिन एन्ड्रोइड अनुभव भएको अभिनव स्मार्टफोन।',
-    price: 85000,
-    discountPrice: 79999,
-    images: [
-      'https://images.pexels.com/photos/13952297/pexels-photo-13952297.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      'https://images.pexels.com/photos/14041926/pexels-photo-14041926.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
-    ],
-    category: 'smartphones',
-    brand: 'Nothing',
+    category: 'power-tools',
+    brand: 'Makita',
     inStock: true,
     stockQuantity: 12,
     specifications: {
-      display: '6.7-inch OLED',
-      processor: 'Snapdragon 8+ Gen 1',
-      camera: '50MP main camera',
-      storage: '128GB',
-      battery: '4700mAh'
+      voltage: '20V MAX',
+      'battery-capacity': '2.0Ah',
+      'max-torque': '380 in-lbs',
+      'chuck-size': '1/2 inch',
+      'weight': '3.4 lbs'
     },
-    rating: 4.5,
-    reviewCount: 42,
-    tags: ['nothing', 'android', 'unique'],
-    isNew: true
+    rating: 4.7,
+    reviewCount: 89,
+    tags: ['makita', 'cordless-drill', 'power-tools'],
+    isNew: false,
+    isFeatured: true
   },
   {
-    id: '8',
-    title: 'ASUS ROG Zephyrus G14',
-    titleNp: 'एसस ROG जेफिरस G१४',
-    slug: 'asus-rog-zephyrus-g14',
-    description: 'Powerful gaming laptop with AMD Ryzen 9 and NVIDIA RTX graphics.',
-    descriptionNp: 'AMD Ryzen 9 र NVIDIA RTX ग्राफिक्स भएको शक्तिशाली गेमिंग ल्यापटप।',
-    price: 250000,
-    discountPrice: 235000,
+    id: '4',
+    title: 'Solid Oak Dining Table',
+    titleNp: 'ठोस ओक खाना खाने टेबल',
+    slug: 'solid-oak-dining-table',
+    description: 'Handcrafted solid oak dining table seats 6 people, featuring traditional joinery techniques.',
+    descriptionNp: 'परम्परागत जोइनरी प्रविधिको प्रयोग गरेर ६ जनालाई बस्न मिल्ने हस्तशिल्प ठोस ओक खाना खाने टेबल।',
+    price: 45000,
+    discountPrice: 38000,
     images: [
-      'https://images.pexels.com/photos/777001/pexels-photo-777001.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      'https://images.pexels.com/photos/1038916/pexels-photo-1038916.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+      'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      'https://images.pexels.com/photos/2451264/pexels-photo-2451264.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
     ],
-    category: 'laptops',
-    brand: 'ASUS',
+    category: 'furniture',
+    brand: 'CraftWorks',
+    inStock: true,
+    stockQuantity: 5,
+    specifications: {
+      material: 'Solid Oak Wood',
+      dimensions: '72" x 36" x 30"',
+      finish: 'Natural Oil Finish',
+      seating: '6 People',
+      weight: '85 lbs'
+    },
+    rating: 4.9,
+    reviewCount: 45,
+    tags: ['dining-table', 'oak', 'handcrafted'],
+    isNew: false,
+    isFeatured: true
+  },
+  {
+    id: '5',
+    title: 'Router Table with Fence',
+    titleNp: 'फेन्स सहित राउटर टेबल',
+    slug: 'router-table-with-fence',
+    description: 'Professional router table with adjustable fence and dust collection port for precise woodworking.',
+    descriptionNp: 'सटिक काठको कामका लागि समायोज्य फेन्स र धुलो संकलन पोर्ट भएको व्यावसायिक राउटर टेबल।',
+    price: 25000,
+    discountPrice: 22000,
+    images: [
+      'https://images.pexels.com/photos/5974028/pexels-photo-5974028.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      'https://images.pexels.com/photos/209235/pexels-photo-209235.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+    ],
+    category: 'workshop-equipment',
+    brand: 'Bosch',
     inStock: true,
     stockQuantity: 8,
     specifications: {
-      display: '14-inch QHD 165Hz',
-      processor: 'AMD Ryzen 9 7940HS',
-      ram: '16GB DDR5',
-      storage: '1TB SSD',
-      graphics: 'NVIDIA RTX 4060'
-    },
-    rating: 4.9,
-    reviewCount: 24,
-    tags: ['asus', 'gaming', 'laptop'],
-    isNew: true
-  }
-];
-
-export const bestSellers: Product[] = [
-  {
-    id: '9',
-    title: 'Redmi Note 13 Pro',
-    titleNp: 'रेडमी नोट १३ प्रो',
-    slug: 'redmi-note-13-pro',
-    description: 'Affordable yet powerful smartphone with excellent camera capabilities.',
-    descriptionNp: 'उत्कृष्ट क्यामेरा क्षमताहरू भएको सस्तो तर शक्तिशाली स्मार्टफोन।',
-    price: 45000,
-    discountPrice: 42999,
-    images: [
-      'https://images.pexels.com/photos/3662828/pexels-photo-3662828.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      'https://images.pexels.com/photos/3945673/pexels-photo-3945673.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
-    ],
-    category: 'smartphones',
-    brand: 'Xiaomi',
-    inStock: true,
-    stockQuantity: 45,
-    specifications: {
-      display: '6.67-inch AMOLED 120Hz',
-      processor: 'Snapdragon 7s Gen 2',
-      camera: '200MP main camera',
-      storage: '128GB',
-      battery: '5000mAh'
+      'table-size': '27" x 18"',
+      'fence-length': '32 inches',
+      'router-compatibility': 'Universal',
+      'dust-port': '2.5 inch',
+      'weight': '45 lbs'
     },
     rating: 4.6,
-    reviewCount: 347,
-    tags: ['xiaomi', 'redmi', 'budget']
-  },
-  {
-    id: '10',
-    title: 'Acer Nitro 5',
-    titleNp: 'एसर निट्रो ५',
-    slug: 'acer-nitro-5',
-    description: 'Mid-range gaming laptop with excellent performance-to-price ratio.',
-    descriptionNp: 'उत्कृष्ट प्रदर्शन-मूल्य अनुपात भएको मध्यम स्तरको गेमिंग ल्यापटप।',
-    price: 135000,
-    discountPrice: 129000,
-    images: [
-      'https://images.pexels.com/photos/459653/pexels-photo-459653.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      'https://images.pexels.com/photos/2115257/pexels-photo-2115257.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
-    ],
-    category: 'laptops',
-    brand: 'Acer',
-    inStock: true,
-    stockQuantity: 15,
-    specifications: {
-      display: '15.6-inch FHD 144Hz',
-      processor: 'Intel Core i5-12500H',
-      ram: '16GB DDR4',
-      storage: '512GB SSD',
-      graphics: 'NVIDIA RTX 3050'
-    },
-    rating: 4.5,
-    reviewCount: 215,
-    tags: ['acer', 'gaming', 'laptop', 'budget']
+    reviewCount: 73,
+    tags: ['router-table', 'bosch', 'workshop'],
+    isNew: true,
+    isFeatured: false
   }
 ];
 
-export const allProducts: Product[] = [
+export const categories: Category[] = [
+  {
+    id: 'power-tools',
+    name: 'Power Tools',
+    nameNp: 'पावर उपकरणहरू',
+    description: 'Electric and cordless power tools for woodworking and construction',
+    image: 'https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=500&h=300&dpr=1'
+  },
+  {
+    id: 'hand-tools',
+    name: 'Hand Tools',
+    nameNp: 'हात उपकरणहरू',
+    description: 'Traditional hand tools for precision woodworking and craftsmanship',
+    image: 'https://images.pexels.com/photos/5974028/pexels-photo-5974028.jpeg?auto=compress&cs=tinysrgb&w=500&h=300&dpr=1'
+  },
+  {
+    id: 'furniture',
+    name: 'Furniture',
+    nameNp: 'फर्निचर',
+    description: 'Handcrafted solid wood furniture for home and office',
+    image: 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=500&h=300&dpr=1'
+  },
+  {
+    id: 'workshop-equipment',
+    name: 'Workshop Equipment',
+    nameNp: 'कार्यशाला उपकरणहरू',
+    description: 'Professional workshop equipment and workbenches',
+    image: 'https://images.pexels.com/photos/209235/pexels-photo-209235.jpeg?auto=compress&cs=tinysrgb&w=500&h=300&dpr=1'
+  },
+  {
+    id: 'wood-materials',
+    name: 'Wood Materials',
+    nameNp: 'काठका सामग्रीहरू',
+    description: 'Quality lumber, plywood, and wood finishing materials',
+    image: 'https://images.pexels.com/photos/1648776/pexels-photo-1648776.jpeg?auto=compress&cs=tinysrgb&w=500&h=300&dpr=1'
+  },
+  {
+    id: 'safety-equipment',
+    name: 'Safety Equipment',
+    nameNp: 'सुरक्षा उपकरणहरू',
+    description: 'Essential safety gear for workshop and construction work',
+    image: 'https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=500&h=300&dpr=1'
+  }
+];
+
+export const products: Product[] = [
   ...featuredProducts,
-  ...newArrivals, 
-  ...bestSellers
+  {
+    id: '6',
+    title: 'Professional Workbench',
+    titleNp: 'व्यावसायिक कार्यबेन्च',
+    slug: 'professional-workbench',
+    description: 'Heavy-duty workbench with multiple drawers and tool storage compartments.',
+    descriptionNp: 'धेरै दराज र उपकरण भण्डारण कम्पार्टमेन्ट भएको भारी-ड्यूटी कार्यबेन्च।',
+    price: 35000,
+    images: [
+      'https://images.pexels.com/photos/162553/tools-saw-blade-workshop-162553.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+    ],
+    category: 'workshop-equipment',
+    brand: 'CraftWorks',
+    inStock: true,
+    stockQuantity: 6,
+    specifications: {
+      dimensions: '60" x 24" x 34"',
+      'top-material': 'Solid Maple',
+      drawers: '4 Full Extension',
+      'weight-capacity': '500 lbs',
+      finish: 'Lacquer'
+    },
+    rating: 4.8,
+    reviewCount: 32,
+    tags: ['workbench', 'storage', 'workshop']
+  },
+  {
+    id: '7',
+    title: 'Hardwood Lumber Pack',
+    titleNp: 'कडा काठको लम्बर प्याक',
+    slug: 'hardwood-lumber-pack',
+    description: 'Mixed hardwood lumber pack perfect for furniture making projects.',
+    descriptionNp: 'फर्निचर निर्माण परियोजनाहरूका लागि उत्तम मिश्रित कडा काठको लम्बर प्याक।',
+    price: 18000,
+    discountPrice: 16000,
+    images: [
+      'https://images.pexels.com/photos/1648776/pexels-photo-1648776.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+    ],
+    category: 'wood-materials',
+    brand: 'TimberCraft',
+    inStock: true,
+    stockQuantity: 25,
+    specifications: {
+      species: 'Oak, Cherry, Maple',
+      thickness: '3/4 inch',
+      'board-feet': '20 BF',
+      grade: 'Select & Better',
+      moisture: 'Kiln Dried 6-8%'
+    },
+    rating: 4.5,
+    reviewCount: 67,
+    tags: ['lumber', 'hardwood', 'oak', 'cherry', 'maple']
+  },
+  {
+    id: '8',
+    title: 'Safety Glasses and Ear Protection Set',
+    titleNp: 'सुरक्षा चश्मा र कान सुरक्षा सेट',
+    slug: 'safety-glasses-ear-protection-set',
+    description: 'Complete safety set with impact-resistant glasses and noise-reducing ear muffs.',
+    descriptionNp: 'प्रभाव-प्रतिरोधी चश्मा र आवाज कम गर्ने कान मफ्स सहित पूर्ण सुरक्षा सेट।',
+    price: 2500,
+    discountPrice: 2000,
+    images: [
+      'https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+    ],
+    category: 'safety-equipment',
+    brand: '3M',
+    inStock: true,
+    stockQuantity: 50,
+    specifications: {
+      'glasses-standard': 'ANSI Z87.1+',
+      'ear-protection': 'NRR 25dB',
+      'lens-type': 'Anti-fog',
+      'frame-material': 'Polycarbonate',
+      'headband': 'Adjustable'
+    },
+    rating: 4.4,
+    reviewCount: 124,
+    tags: ['safety', '3m', 'protection', 'glasses']
+  }
 ];

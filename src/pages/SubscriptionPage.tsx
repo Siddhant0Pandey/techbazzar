@@ -29,7 +29,7 @@ const SubscriptionPage: React.FC = () => {
           Choose Your Plan
         </h1>
         <p className="text-lg text-muted max-w-2xl mx-auto">
-          Unlock premium features and get the most out of TechBazaar with our subscription plans.
+                      Unlock premium features and get the most out of CraftWorks with our subscription plans.
         </p>
       </div>
 

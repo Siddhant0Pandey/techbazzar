@@ -47,7 +47,7 @@ const AdminLogin: React.FC = () => {
             <div className="flex items-center justify-center mb-4">
               <ShoppingCart className="h-12 w-12 text-primary" />
             </div>
-            <h1 className="text-2xl font-bold text-foreground">TechBazaar Admin</h1>
+                          <h1 className="text-2xl font-bold text-foreground">CraftWorks Admin</h1>
             <p className="text-muted mt-2">Sign in to admin dashboard</p>
           </div>
           
@@ -56,10 +56,10 @@ const AdminLogin: React.FC = () => {
             <h3 className="text-sm font-medium text-blue-800 dark:text-blue-200 mb-2">Demo Credentials:</h3>
             <div className="space-y-1">
               <p className="text-xs text-blue-700 dark:text-blue-300">
-                <strong>Admin:</strong> admin@techbazaar.com / admin123
+                <strong>Admin:</strong> admin@craftworks.com / admin123
               </p>
               <p className="text-xs text-blue-700 dark:text-blue-300">
-                <strong>Super Admin:</strong> superadmin@techbazaar.com / super123
+                <strong>Super Admin:</strong> superadmin@craftworks.com / super123
               </p>
             </div>
           </div>

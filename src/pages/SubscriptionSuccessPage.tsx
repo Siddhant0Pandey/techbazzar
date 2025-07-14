@@ -21,7 +21,7 @@ const SubscriptionSuccessPage: React.FC = () => {
 
         {/* Success Message */}
         <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-          Welcome to TechBazaar Premium!
+                            Welcome to CraftWorks Premium!
         </h1>
         
         <p className="text-lg text-muted mb-8">

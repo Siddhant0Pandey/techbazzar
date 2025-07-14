@@ -4,35 +4,35 @@
 
 @layer base {
   :root {
-    --color-primary: 37 99 235;
-    --color-primary-dark: 29 78 216;
-    --color-secondary: 239 68 68;
-    --color-secondary-dark: 220 38 38;
-    --color-accent: 249 115 22;
+    --color-primary: 120 113 108;
+    --color-primary-dark: 87 83 78;
+    --color-secondary: 217 119 6;
+    --color-secondary-dark: 194 65 12;
+    --color-accent: 34 197 94;
     --color-success: 34 197 94;
-    --color-warning: 234 179 8;
+    --color-warning: 251 191 36;
     --color-error: 220 38 38;
     --color-background: 255 255 255;
-    --color-foreground: 17 24 39;
-    --color-muted: 107 114 128;
-    --color-surface: 243 244 246;
-    --color-input: 209 213 219;
+    --color-foreground: 41 37 36;
+    --color-muted: 120 113 108;
+    --color-surface: 250 250 249;
+    --color-input: 214 211 209;
   }
 
   .dark {
-    --color-primary: 59 130 246;
-    --color-primary-dark: 37 99 235;
-    --color-secondary: 248 113 113;
-    --color-secondary-dark: 239 68 68;
-    --color-accent: 251 146 60;
+    --color-primary: 168 162 158;
+    --color-primary-dark: 120 113 108;
+    --color-secondary: 251 146 60;
+    --color-secondary-dark: 217 119 6;
+    --color-accent: 74 222 128;
     --color-success: 74 222 128;
-    --color-warning: 250 204 21;
+    --color-warning: 252 211 77;
     --color-error: 248 113 113;
-    --color-background: 15 23 42;
-    --color-foreground: 248 250 252;
-    --color-muted: 148 163 184;
-    --color-surface: 30 41 59;
-    --color-input: 75 85 99;
+    --color-background: 28 25 23;
+    --color-foreground: 250 250 249;
+    --color-muted: 168 162 158;
+    --color-surface: 41 37 36;
+    --color-input: 87 83 78;
   }
 
   body {
