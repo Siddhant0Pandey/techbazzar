@@ -5,21 +5,27 @@ import App from './App';
 import './index.css';
 import './i18n/config';
 import { ThemeProvider } from './context/ThemeContext';
+import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { AdminAuthProvider } from './context/AdminAuthContext';
 import { Toaster } from 'react-hot-toast';
+import ErrorBoundary from './components/common/ErrorBoundary';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-      <ThemeProvider>
-        <AdminAuthProvider>
-          <CartProvider>
-            <App />
-            <Toaster position="top-right" />
-          </CartProvider>
-        </AdminAuthProvider>
-      </ThemeProvider>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <ThemeProvider>
+          <AuthProvider>
+            <AdminAuthProvider>
+              <CartProvider>
+                <App />
+                <Toaster position="top-right" />
+              </CartProvider>
+            </AdminAuthProvider>
+          </AuthProvider>
+        </ThemeProvider>
+      </BrowserRouter>
+    </ErrorBoundary>
   </StrictMode>
 );
