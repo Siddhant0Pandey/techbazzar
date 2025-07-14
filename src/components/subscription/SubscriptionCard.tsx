@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Check, Crown, Loader2 } from 'lucide-react';
-import { StripeProduct } from '../../stripe-config';
-import { useAuth } from '../../hooks/useAuth';
-import toast from 'react-hot-toast';
+import { Check } from 'lucide-react';
+import { StripeProduct } from '../../types';
+import { stripeAPI } from '../../lib/api';
 
 interface SubscriptionCardProps {
   product: StripeProduct;
@@ -16,118 +14,91 @@ const SubscriptionCard: React.FC<SubscriptionCardProps> = ({
   isCurrentPlan = false, 
   isPopular = false 
 }) => {
-  const { t } = useTranslation();
-  const { user, isAuthenticated } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const handleSubscribe = async () => {
-    if (!isAuthenticated) {
-      toast.error('Please log in to subscribe');
-      return;
-    }
-
     setLoading(true);
 
     try {
-      // TODO: Replace with actual API call to your MongoDB backend
-      // This should create a Stripe checkout session
-      const response = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Use your auth token
-        },
-        body: JSON.stringify({
-          price_id: product.priceId,
-          mode: product.mode,
-          success_url: `${window.location.origin}/subscription/success`,
-          cancel_url: `${window.location.origin}/subscription`,
-        }),
+      const response = await stripeAPI.createCheckoutSession({
+        price_id: product.priceId,
+        mode: product.mode,
+        success_url: `${window.location.origin}/subscription/success`,
+        cancel_url: `${window.location.origin}/subscription`,
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to create checkout session');
+      if (response.success && response.data?.url) {
+        window.location.href = response.data.url;
+      } else {
+        throw new Error(response.message || 'Failed to create checkout session');
       }
-
-      if (data.url) {
-        window.location.href = data.url;
-      }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Subscription error:', error);
-      toast.error(error.message || 'Failed to start subscription process');
+      alert('Something went wrong. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className={`relative rounded-xl border-2 p-6 ${
-      isPopular 
-        ? 'border-primary bg-primary/5' 
-        : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800'
-    }`}>
+    <div className={`
+      relative rounded-xl border p-6 shadow-sm transition-all duration-200
+      ${isPopular 
+        ? 'border-primary bg-primary/5 scale-105' 
+        : 'border-border bg-background hover:border-primary/50'
+      }
+    `}>
       {isPopular && (
         <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-          <span className="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
-            <Crown className="h-4 w-4" />
-            Popular
+          <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-semibold">
+            Most Popular
           </span>
         </div>
       )}
-
+      
       <div className="text-center">
         <h3 className="text-xl font-bold text-foreground mb-2">{product.name}</h3>
-        <p className="text-muted mb-4">{product.description}</p>
-        
-        <div className="mb-6">
-          <span className="text-3xl font-bold text-foreground">$10</span>
-          <span className="text-muted">/month</span>
+        <div className="mb-4">
+          <span className="text-4xl font-bold text-foreground">
+            ${product.price}
+          </span>
+          <span className="text-muted-foreground ml-1">
+            /{product.interval}
+          </span>
         </div>
-
-        <div className="space-y-3 mb-6">
-          <div className="flex items-center gap-2">
-            <Check className="h-4 w-4 text-green-500" />
-            <span className="text-sm">Premium tech marketplace access</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Check className="h-4 w-4 text-green-500" />
-            <span className="text-sm">Exclusive deals and discounts</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Check className="h-4 w-4 text-green-500" />
-            <span className="text-sm">Priority customer support</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Check className="h-4 w-4 text-green-500" />
-            <span className="text-sm">Early access to new products</span>
-          </div>
-        </div>
-
-        <button
-          onClick={handleSubscribe}
-          disabled={loading || isCurrentPlan}
-          className={`w-full py-3 px-4 rounded-lg font-medium transition-colors ${
-            isCurrentPlan
-              ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
-              : isPopular
-              ? 'bg-primary hover:bg-primary-dark text-white'
-              : 'bg-gray-900 hover:bg-gray-800 text-white dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100'
-          }`}
-        >
-          {loading ? (
-            <div className="flex items-center justify-center gap-2">
-              <Loader2 className="h-4 w-4 animate-spin" />
-              Processing...
-            </div>
-          ) : isCurrentPlan ? (
-            'Current Plan'
-          ) : (
-            'Subscribe Now'
-          )}
-        </button>
+        <p className="text-muted-foreground mb-6">{product.description}</p>
       </div>
+
+      <div className="space-y-3 mb-6">
+        {product.features.map((feature, index) => (
+          <div key={index} className="flex items-center">
+            <Check className="h-4 w-4 text-primary mr-3 flex-shrink-0" />
+            <span className="text-sm text-foreground">{feature}</span>
+          </div>
+        ))}
+      </div>
+
+      <button
+        onClick={handleSubscribe}
+        disabled={isCurrentPlan || loading}
+        className={`
+          w-full py-3 px-4 rounded-lg font-semibold transition-all duration-200
+          ${isCurrentPlan
+            ? 'bg-muted text-muted-foreground cursor-not-allowed'
+            : isPopular
+            ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+            : 'bg-background border border-border text-foreground hover:bg-muted'
+          }
+          ${loading ? 'opacity-50 cursor-not-allowed' : ''}
+        `}
+      >
+        {loading 
+          ? 'Processing...' 
+          : isCurrentPlan 
+          ? 'Current Plan' 
+          : `Subscribe to ${product.name}`
+        }
+      </button>
     </div>
   );
 };
