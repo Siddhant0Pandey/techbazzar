@@ -9,7 +9,10 @@
     "server": "nodemon server/index.js",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "seed": "node server/scripts/seedDatabase.js",
+    "seed:dev": "node --env-file=.env server/scripts/seedDatabase.js",
+    "test:mongo": "node server/scripts/testMongoConnection.js"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.6",
