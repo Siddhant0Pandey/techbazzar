@@ -12,13 +12,13 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { t, i18n } = useTranslation();
-  const { addToCart } = useCart();
+  const { addToCart, loading } = useCart();
   const currentLanguage = i18n.language;
   
-  const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleAddToCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    addToCart(product, 1);
+    await addToCart(product, 1);
   };
 
   const displayTitle = currentLanguage === 'np' && product.titleNp 
@@ -112,11 +112,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
             <button
               onClick={handleAddToCart}
-              disabled={!product.inStock}
+              disabled={!product.inStock || loading}
               className="p-2 rounded-full bg-primary text-white hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               aria-label={t('products.add_to_cart')}
             >
-              <ShoppingCart className="w-4 h-4" />
+              {loading ? (
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <ShoppingCart className="w-4 h-4" />
+              )}
             </button>
           </div>
           

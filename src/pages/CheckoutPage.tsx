@@ -36,7 +36,7 @@ const paymentMethods: { id: PaymentMethod; name: string; logo?: string }[] = [
 
 const CheckoutPage: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const { cartItems, getCartTotal, clearCart } = useCart();
+  const { cartItems, getCartTotal, clearCart, loading } = useCart();
   const { isAuthenticated, user } = useAuth();
   
   const [step, setStep] = useState<'address' | 'payment' | 'confirmation'>('address');
@@ -115,14 +115,18 @@ const CheckoutPage: React.FC = () => {
   };
   
   // Handle order placement
-  const handlePlaceOrder = () => {
-    // Here we would send the order to an API
-    toast.success(t('checkout.order_placed', 'Order placed successfully!'));
-    setFormSubmitted(true);
-    clearCart();
-    
-    // In a real app, we would redirect to an order confirmation page
-    // but for now, we'll just show a success message
+  const handlePlaceOrder = async () => {
+    try {
+      // Here we would send the order to an API
+      toast.success(t('checkout.order_placed', 'Order placed successfully!'));
+      setFormSubmitted(true);
+      await clearCart();
+      
+      // In a real app, we would redirect to an order confirmation page
+      // but for now, we'll just show a success message
+    } catch (error) {
+      toast.error('Failed to place order. Please try again.');
+    }
   };
   
   // If no items in cart, redirect to products
@@ -517,9 +521,13 @@ const CheckoutPage: React.FC = () => {
                 <div className="flex justify-end">
                   <button
                     onClick={handlePlaceOrder}
-                    className="btn btn-primary py-3 px-6"
+                    disabled={loading}
+                    className="btn btn-primary py-3 px-6 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
                   >
-                    {t('checkout.place_order')}
+                    {loading && (
+                      <div className="mr-2 w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    )}
+                    {loading ? t('common.loading', 'Loading...') : t('checkout.place_order')}
                   </button>
                 </div>
               </div>

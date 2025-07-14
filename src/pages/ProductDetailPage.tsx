@@ -12,7 +12,7 @@ import toast from 'react-hot-toast';
 const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { t, i18n } = useTranslation();
-  const { addToCart } = useCart();
+  const { addToCart, loading } = useCart();
   
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState(1);
@@ -54,13 +54,13 @@ const ProductDetailPage: React.FC = () => {
     setQuantity(newQuantity);
   };
   
-  const handleAddToCart = () => {
-    addToCart(product, quantity);
-    toast.success(t('cart.added_to_cart', 'Added to cart successfully'));
+  const handleAddToCart = async () => {
+    await addToCart(product, quantity);
+    // Toast notification is already handled in the addToCart function
   };
   
-  const handleBuyNow = () => {
-    addToCart(product, quantity);
+  const handleBuyNow = async () => {
+    await addToCart(product, quantity);
     // Navigate to checkout
     window.location.href = '/checkout';
   };
@@ -202,16 +202,22 @@ const ProductDetailPage: React.FC = () => {
                 <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
                   <button 
                     onClick={handleAddToCart}
-                    className="btn btn-primary py-3 flex-1 flex items-center justify-center"
+                    disabled={loading || !product?.inStock}
+                    className="btn btn-primary py-3 flex-1 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <ShoppingCart className="mr-2 h-5 w-5" />
-                    {t('products.add_to_cart')}
+                    {loading ? (
+                      <div className="mr-2 w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <ShoppingCart className="mr-2 h-5 w-5" />
+                    )}
+                    {loading ? t('common.loading', 'Loading...') : t('products.add_to_cart')}
                   </button>
                   <button 
                     onClick={handleBuyNow}
-                    className="btn btn-secondary py-3 flex-1"
+                    disabled={loading || !product?.inStock}
+                    className="btn btn-secondary py-3 flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {t('products.buy_now')}
+                    {loading ? t('common.loading', 'Loading...') : t('products.buy_now')}
                   </button>
                   <button 
                     className="btn btn-outline p-3 hidden sm:inline-flex"

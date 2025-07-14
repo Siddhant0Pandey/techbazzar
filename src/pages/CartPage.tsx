@@ -7,7 +7,7 @@ import { formatPrice } from '../utils/formatters';
 
 const CartPage: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const { cartItems, removeFromCart, updateQuantity, getCartTotal } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, getCartTotal, loading } = useCart();
   
   const currentLanguage = i18n.language;
   
@@ -16,6 +16,14 @@ const CartPage: React.FC = () => {
   const shipping = subtotal > 10000 ? 0 : 500;
   const tax = Math.round(subtotal * 0.13); // 13% VAT in Nepal
   const total = subtotal + shipping + tax;
+
+  const handleUpdateQuantity = async (productId: string, quantity: number) => {
+    await updateQuantity(productId, quantity);
+  };
+
+  const handleRemoveFromCart = async (productId: string) => {
+    await removeFromCart(productId);
+  };
   
   if (cartItems.length === 0) {
     return (
@@ -91,17 +99,17 @@ const CartPage: React.FC = () => {
                           <span className="mr-2 text-sm">{t('cart.quantity')}:</span>
                           <div className="flex items-center border border-gray-300 dark:border-gray-600 rounded">
                             <button 
-                              onClick={() => updateQuantity(item.productId, item.quantity - 1)}
-                              className="px-2 py-1 text-muted hover:text-foreground"
-                              disabled={item.quantity <= 1}
+                              onClick={() => handleUpdateQuantity(item.productId, item.quantity - 1)}
+                              className="px-2 py-1 text-muted hover:text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
+                              disabled={item.quantity <= 1 || loading}
                             >
                               <Minus className="h-3 w-3" />
                             </button>
                             <span className="px-3 py-1">{item.quantity}</span>
                             <button 
-                              onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-                              className="px-2 py-1 text-muted hover:text-foreground"
-                              disabled={item.quantity >= item.product.stockQuantity}
+                              onClick={() => handleUpdateQuantity(item.productId, item.quantity + 1)}
+                              className="px-2 py-1 text-muted hover:text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
+                              disabled={item.quantity >= item.product.stockQuantity || loading}
                             >
                               <Plus className="h-3 w-3" />
                             </button>
@@ -109,8 +117,9 @@ const CartPage: React.FC = () => {
                         </div>
                         
                         <button 
-                          onClick={() => removeFromCart(item.productId)}
-                          className="flex items-center text-sm text-red-500 hover:text-red-600"
+                          onClick={() => handleRemoveFromCart(item.productId)}
+                          className="flex items-center text-sm text-red-500 hover:text-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                          disabled={loading}
                         >
                           <Trash className="h-4 w-4 mr-1" />
                           {t('cart.remove')}
