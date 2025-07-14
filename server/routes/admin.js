@@ -1,6 +1,7 @@
 import express from 'express';
 import { body, validationResult } from 'express-validator';
-import Admin from '../models/Admin.js';
+import bcrypt from 'bcryptjs';
+import { adminDB } from '../database/dbAdapter.js';
 import { generateTokens, verifyToken, authenticateAdmin, checkPermission } from '../middleware/auth.js';
 
 const router = express.Router();
@@ -50,7 +51,7 @@ router.post('/login', validateAdminLogin, async (req, res) => {
     const { email, password } = req.body;
 
     // Find admin
-    const admin = await Admin.findOne({ email });
+    const admin = await adminDB.findOne({ email });
     if (!admin) {
       return res.status(401).json({
         success: false,
@@ -58,16 +59,8 @@ router.post('/login', validateAdminLogin, async (req, res) => {
       });
     }
 
-    // Check if admin is active
-    if (!admin.isActive) {
-      return res.status(401).json({
-        success: false,
-        message: 'Account is deactivated'
-      });
-    }
-
     // Verify password
-    const isPasswordValid = await admin.comparePassword(password);
+    const isPasswordValid = await bcrypt.compare(password, admin.password);
     if (!isPasswordValid) {
       return res.status(401).json({
         success: false,
@@ -83,18 +76,26 @@ router.post('/login', validateAdminLogin, async (req, res) => {
       type: 'admin'
     });
 
-    // Update admin
+    // Update admin with refresh token
     admin.refreshToken = refreshToken;
     admin.lastLogin = new Date();
-    await admin.save();
+
+    // Remove password from response
+    const adminResponse = {
+      _id: admin._id,
+      name: admin.name,
+      email: admin.email,
+      role: admin.role,
+      permissions: admin.permissions,
+      createdAt: admin.createdAt
+    };
 
     res.json({
       success: true,
       message: 'Admin login successful',
       data: {
-        admin,
-        accessToken,
-        refreshToken
+        user: adminResponse,
+        token: accessToken
       }
     });
   } catch (error) {

@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { adminAPI } from '../lib/api';
+import toast from 'react-hot-toast';
 
 interface AdminUser {
   id: string;
@@ -74,12 +75,16 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         localStorage.setItem('adminToken', authData.token);
         // Also set regular token for API calls
         localStorage.setItem('token', authData.token);
+        
+        toast.success(`Welcome back, ${authData.user.name}!`);
       } else {
         throw new Error(response.message || 'Admin login failed');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Admin login error:', error);
-      throw error;
+      const errorMessage = error.message || 'Admin login failed. Please check your credentials.';
+      toast.error(errorMessage);
+      throw new Error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -94,9 +99,12 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         const updatedAdmin = { ...adminUser, ...response.data } as AdminUser;
         setAdminUser(updatedAdmin);
         localStorage.setItem('adminUser', JSON.stringify(updatedAdmin));
+        toast.success('Admin profile updated successfully!');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Admin profile update error:', error);
+      const errorMessage = error.message || 'Failed to update admin profile';
+      toast.error(errorMessage);
       throw error;
     }
   };
@@ -107,6 +115,7 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     localStorage.removeItem('adminUser');
     localStorage.removeItem('adminToken');
     localStorage.removeItem('token');
+    toast.success('Admin logged out successfully!');
   };
 
   return React.createElement(

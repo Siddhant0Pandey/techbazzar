@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { authAPI } from '../lib/api';
 import { User } from '../types';
+import toast from 'react-hot-toast';
 
 interface AuthContextType {
   user: User | null;
@@ -69,7 +70,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       } else {
         throw new Error(response.message || 'Login failed');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Login error:', error);
       throw error;
     } finally {
@@ -89,12 +90,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setIsAuthenticated(true);
         localStorage.setItem('user', JSON.stringify(authData.user));
         localStorage.setItem('token', authData.token);
+        
+        toast.success('Registration successful! Welcome to TechBazaar!');
       } else {
         throw new Error(response.message || 'Registration failed');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Registration error:', error);
-      throw error;
+      const errorMessage = error.message || 'Registration failed. Please try again.';
+      toast.error(errorMessage);
+      throw new Error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -108,9 +113,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const updatedUser = { ...user, ...response.data } as User;
         setUser(updatedUser);
         localStorage.setItem('user', JSON.stringify(updatedUser));
+        toast.success('Profile updated successfully!');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Profile update error:', error);
+      const errorMessage = error.message || 'Failed to update profile';
+      toast.error(errorMessage);
       throw error;
     }
   };
@@ -118,6 +126,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = async () => {
     try {
       await authAPI.logout();
+      toast.success('Logged out successfully!');
     } catch (error) {
       console.error('Logout error:', error);
     } finally {

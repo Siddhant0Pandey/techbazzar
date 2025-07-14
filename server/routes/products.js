@@ -1,6 +1,6 @@
 import express from 'express';
 import { body, validationResult, query } from 'express-validator';
-import Product from '../models/Product.js';
+import { productDB } from '../database/dbAdapter.js';
 import { authenticateAdmin, checkPermission } from '../middleware/auth.js';
 
 const router = express.Router();
@@ -64,23 +64,69 @@ router.get('/', [
       ];
     }
 
+    // Get all products and apply client-side filtering
+    let products = await productDB.find();
+
+    // Apply filters
+    if (category) {
+      products = products.filter(p => p.category === category);
+    }
+    if (brand) {
+      products = products.filter(p => p.brand.toLowerCase().includes(brand.toLowerCase()));
+    }
+    if (featured === 'true') {
+      products = products.filter(p => p.isFeatured === true);
+    }
+    if (isNew === 'true') {
+      products = products.filter(p => p.isNew === true);
+    }
+
+    // Price range filter
+    if (minPrice) {
+      products = products.filter(p => p.price >= parseFloat(minPrice));
+    }
+    if (maxPrice) {
+      products = products.filter(p => p.price <= parseFloat(maxPrice));
+    }
+
+    // Search filter
+    if (search) {
+      const searchLower = search.toLowerCase();
+      products = products.filter(p => 
+        p.title.toLowerCase().includes(searchLower) ||
+        p.description.toLowerCase().includes(searchLower) ||
+        p.brand.toLowerCase().includes(searchLower) ||
+        (p.tags && p.tags.some(tag => tag.toLowerCase().includes(searchLower)))
+      );
+    }
+
+    // Sort products
+    if (sort === 'price') {
+      products.sort((a, b) => a.price - b.price);
+    } else if (sort === '-price') {
+      products.sort((a, b) => b.price - a.price);
+    } else if (sort === 'rating') {
+      products.sort((a, b) => a.rating - b.rating);
+    } else if (sort === '-rating') {
+      products.sort((a, b) => b.rating - a.rating);
+    } else if (sort === 'title') {
+      products.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (sort === '-title') {
+      products.sort((a, b) => b.title.localeCompare(a.title));
+    } else {
+      // Default sort by creation date (newest first)
+      products.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    }
+
+    const total = products.length;
     const skip = (parseInt(page) - 1) * parseInt(limit);
-
-    const [products, total] = await Promise.all([
-      Product.find(filter)
-        .sort(sort)
-        .skip(skip)
-        .limit(parseInt(limit))
-        .lean(),
-      Product.countDocuments(filter)
-    ]);
-
+    const paginatedProducts = products.slice(skip, skip + parseInt(limit));
     const totalPages = Math.ceil(total / parseInt(limit));
 
     res.json({
       success: true,
       data: {
-        products,
+        products: paginatedProducts,
         pagination: {
           currentPage: parseInt(page),
           totalPages,

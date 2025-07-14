@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
 import { Eye, EyeOff, Mail, Lock, User, Phone } from 'lucide-react';
 
 const RegisterForm: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { signUp } = useAuth();
+  const { register } = useAuth();
   
   const [formData, setFormData] = useState({
     name: '',
@@ -47,7 +47,7 @@ const RegisterForm: React.FC = () => {
     setLoading(true);
     
     try {
-      await signUp(formData.name, formData.email, formData.password, formData.phone);
+      await register(formData.name, formData.email, formData.password);
       toast.success(t('auth.register_success', 'Registration successful'));
       navigate('/');
     } catch (error: any) {

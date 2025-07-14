@@ -41,18 +41,24 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 // Connect to MongoDB with fallback to in-memory database
+import { setMongoConnection } from './database/dbAdapter.js';
+
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/techbazaar', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log('Connected to MongoDB');
+    if (process.env.MONGODB_URI) {
+      await mongoose.connect(process.env.MONGODB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+      console.log('✅ Connected to MongoDB');
+      setMongoConnection(true);
+    } else {
+      throw new Error('No MONGODB_URI provided');
+    }
   } catch (err) {
-    console.warn('MongoDB connection failed, using in-memory database:', err.message);
-    // Import in-memory database as fallback
-    await import('./database/inMemoryDB.js');
-    console.log('Using in-memory database for development');
+    console.warn('⚠️ MongoDB connection failed, using in-memory database:', err.message);
+    setMongoConnection(false);
+    console.log('✅ Using in-memory database for development');
   }
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Crown, AlertCircle } from 'lucide-react';
 import { useSubscription } from '../../hooks/useSubscription';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
 
 const SubscriptionStatus: React.FC = () => {

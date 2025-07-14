@@ -1,6 +1,6 @@
 import express from 'express';
 import { body, validationResult } from 'express-validator';
-import Category from '../models/Category.js';
+import { categoryDB } from '../database/dbAdapter.js';
 import { authenticateAdmin, checkPermission } from '../middleware/auth.js';
 
 const router = express.Router();
@@ -8,9 +8,7 @@ const router = express.Router();
 // Get all categories
 router.get('/', async (req, res) => {
   try {
-    const categories = await Category.find({ isActive: true })
-      .populate('parentId', 'name slug')
-      .sort({ sortOrder: 1, name: 1 });
+    const categories = await categoryDB.find();
 
     res.json({
       success: true,

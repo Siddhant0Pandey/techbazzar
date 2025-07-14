@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCart } from '../../context/CartContext';
 import { useTheme } from '../../context/ThemeContext';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../context/AuthContext';
 import {
   ShoppingCart,
   User,
@@ -34,7 +34,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ categories }) => {
   const { t, i18n } = useTranslation();
   const { theme, toggleTheme } = useTheme();
-  const { user, isAuthenticated, signOut } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
   const { getCartCount } = useCart();
   const { isActive, plan } = useSubscription();
   const navigate = useNavigate();
@@ -63,7 +63,7 @@ const Header: React.FC<HeaderProps> = ({ categories }) => {
   };
 
   const handleLogout = async () => {
-    await signOut();
+    await logout();
     setUserMenuOpen(false);
     navigate('/');
   };

@@ -4,7 +4,7 @@ import { Crown, Shield, Zap } from 'lucide-react';
 import SubscriptionCard from '../components/subscription/SubscriptionCard';
 import { stripeProducts } from '../stripe-config';
 import { useSubscription } from '../hooks/useSubscription';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../context/AuthContext';
 
 const SubscriptionPage: React.FC = () => {
   const { t } = useTranslation();

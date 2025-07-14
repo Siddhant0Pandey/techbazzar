@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
 
 const LoginForm: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { signIn } = useAuth();
+  const { login } = useAuth();
   
   const [formData, setFormData] = useState({
     email: '',
@@ -28,7 +28,7 @@ const LoginForm: React.FC = () => {
     setLoading(true);
     
     try {
-      await signIn(formData.email, formData.password);
+      await login(formData.email, formData.password);
       toast.success(t('auth.login_success', 'Login successful'));
       navigate('/');
     } catch (error: any) {
