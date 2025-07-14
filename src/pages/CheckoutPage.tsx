@@ -502,7 +502,7 @@ const CheckoutPage: React.FC = () => {
                           <li key={item.productId} className="py-2 flex justify-between">
                             <div>
                               <p>{displayTitle} x {item.quantity}</p>
-                              <p className="text-sm text-muted">{item.product.specifications.storage || ''}</p>
+                                                              <p className="text-sm text-muted">{item.product.specifications?.storage || ''}</p>
                             </div>
                             <p className="font-medium">
                               रु{formatPrice((item.product.discountPrice || item.product.price) * item.quantity)}

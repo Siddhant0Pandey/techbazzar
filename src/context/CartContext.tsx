@@ -19,7 +19,24 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   try {
     const savedCart = localStorage.getItem('cart');
     const parsed = savedCart ? JSON.parse(savedCart) : [];
-    return Array.isArray(parsed) ? parsed : [];
+    
+    if (Array.isArray(parsed)) {
+      // Validate and clean cart items to ensure proper structure
+      return parsed.filter(item => 
+        item && 
+        item.product && 
+        item.productId && 
+        typeof item.quantity === 'number'
+      ).map(item => ({
+        ...item,
+        product: {
+          ...item.product,
+          specifications: item.product.specifications || {}
+        }
+      }));
+    }
+    
+    return [];
   } catch (error) {
     console.error('Failed to parse cart from localStorage', error);
     return [];
@@ -51,8 +68,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         );
       }
       
+      // Ensure product has proper specifications structure
+      const productWithSpecs = {
+        ...product,
+        specifications: product.specifications || {}
+      };
+      
       toast.success('Item added to cart');
-      return [...prevItems, { productId: product.id, product, quantity }];
+      return [...prevItems, { productId: product.id, product: productWithSpecs, quantity }];
     });
   };
 

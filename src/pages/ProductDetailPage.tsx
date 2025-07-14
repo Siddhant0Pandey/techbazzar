@@ -297,7 +297,7 @@ const ProductDetailPage: React.FC = () => {
               <div className="overflow-hidden">
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                   <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                    {Object.entries(product.specifications).map(([key, value]) => (
+                    {Object.entries(product.specifications || {}).map(([key, value]) => (
                       <tr key={key}>
                         <td className="py-3 text-sm font-medium text-foreground capitalize w-1/3">{key}</td>
                         <td className="py-3 text-sm text-muted">{value}</td>

@@ -70,7 +70,7 @@ const CartPage: React.FC = () => {
                             {displayTitle}
                           </Link>
                           <p className="text-sm text-muted mt-1">
-                            {item.product.brand} | {item.product.specifications.storage || '-'}
+                            {item.product.brand} | {item.product.specifications?.storage || '-'}
                           </p>
                         </div>
                         
