@@ -6,13 +6,13 @@ import Admin from '../models/Admin.js';
 export const generateTokens = (payload) => {
   const accessToken = jwt.sign(
     payload,
-    process.env.JWT_ACCESS_SECRET || 'your-access-secret',
+    process.env.JWT_ACCESS_SECRET || 'access-secret',
     { expiresIn: '15m' }
   );
   
   const refreshToken = jwt.sign(
     payload,
-    process.env.JWT_REFRESH_SECRET || 'your-refresh-secret',
+    process.env.JWT_REFRESH_SECRET || 'refresh-secret',
     { expiresIn: '7d' }
   );
   
@@ -37,7 +37,7 @@ export const authenticateUser = async (req, res, next) => {
     }
     
     const token = authHeader.split(' ')[1];
-    const decoded = verifyToken(token, process.env.JWT_ACCESS_SECRET || 'your-access-secret');
+    const decoded = verifyToken(token, process.env.JWT_ACCESS_SECRET || 'access-secret');
     
     if (decoded.type !== 'user') {
       return res.status(403).json({
@@ -85,7 +85,7 @@ export const authenticateAdmin = async (req, res, next) => {
     }
     
     const token = authHeader.split(' ')[1];
-    const decoded = verifyToken(token, process.env.JWT_ACCESS_SECRET || 'your-access-secret');
+    const decoded = verifyToken(token, process.env.JWT_ACCESS_SECRET || 'access-secret');
     
     if (decoded.type !== 'admin') {
       return res.status(403).json({
