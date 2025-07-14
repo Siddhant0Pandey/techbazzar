@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { authAPI } from '../lib/api';
 import { User } from '../types';
 import toast from 'react-hot-toast';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 
 interface AuthContextType {
   user: User | null;
@@ -136,6 +137,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.removeItem('token');
     }
   };
+
+  // Show loading spinner during initial auth check
+  if (loading) {
+    return React.createElement(
+      'div',
+      { className: 'min-h-screen flex items-center justify-center' },
+      React.createElement(LoadingSpinner, {
+        size: 'lg',
+        text: 'Loading TechBazaar...',
+        color: 'primary'
+      })
+    );
+  }
 
   return React.createElement(
     AuthContext.Provider,
