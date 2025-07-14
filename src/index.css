@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: 37 99 235;
+    --color-primary-dark: 29 78 216;
+    --color-secondary: 239 68 68;
+    --color-secondary-dark: 220 38 38;
+    --color-accent: 249 115 22;
+    --color-success: 34 197 94;
+    --color-warning: 234 179 8;
+    --color-error: 220 38 38;
+    --color-background: 255 255 255;
+    --color-foreground: 17 24 39;
+    --color-muted: 107 114 128;
+    --color-surface: 243 244 246;
+    --color-input: 209 213 219;
+  }
+
+  .dark {
+    --color-primary: 59 130 246;
+    --color-primary-dark: 37 99 235;
+    --color-secondary: 248 113 113;
+    --color-secondary-dark: 239 68 68;
+    --color-accent: 251 146 60;
+    --color-success: 74 222 128;
+    --color-warning: 250 204 21;
+    --color-error: 248 113 113;
+    --color-background: 15 23 42;
+    --color-foreground: 248 250 252;
+    --color-muted: 148 163 184;
+    --color-surface: 30 41 59;
+    --color-input: 75 85 99;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    @apply bg-background text-foreground;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold leading-tight;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary-dark;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-white hover:bg-secondary-dark;
+  }
+
+  .btn-outline {
+    @apply border bg-background hover:bg-surface hover:text-foreground;
+    border-color: rgb(var(--color-input));
+  }
+
+  .container {
+    @apply mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
