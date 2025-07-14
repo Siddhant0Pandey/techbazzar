@@ -1,15 +1,79 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import HeroSection from '../components/home/HeroSection';
 import FeaturedProducts from '../components/home/FeaturedProducts';
 import CategoriesSection from '../components/home/CategoriesSection';
 import PromoBanner from '../components/home/PromoBanner';
 import Brands from '../components/home/Brands';
 import SubscriptionStatus from '../components/layout/SubscriptionStatus';
-import { featuredProducts, newArrivals, bestSellers } from '../data/mockData';
+import { productAPI } from '../lib/api';
+import { Product } from '../types';
 import { useTranslation } from 'react-i18next';
 
 const HomePage: React.FC = () => {
   const { t } = useTranslation();
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [newArrivals, setNewArrivals] = useState<Product[]>([]);
+  const [bestSellers, setBestSellers] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  
+  // Fetch products from database
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        
+        // Fetch featured products
+        const featuredResponse = await productAPI.getAll({ 
+          featured: 'true', 
+          limit: 8,
+          sort: '-rating'
+        });
+        
+        // Fetch new arrivals
+        const newResponse = await productAPI.getAll({ 
+          new: 'true', 
+          limit: 8,
+          sort: '-createdAt'
+        });
+        
+        // Fetch bestsellers (products with high review count and rating)
+        const bestsellersResponse = await productAPI.getAll({ 
+          limit: 8,
+          sort: '-reviewCount'
+        });
+        
+        if (featuredResponse.success && featuredResponse.data) {
+          setFeaturedProducts(featuredResponse.data.products || featuredResponse.data);
+        }
+        
+        if (newResponse.success && newResponse.data) {
+          setNewArrivals(newResponse.data.products || newResponse.data);
+        }
+        
+        if (bestsellersResponse.success && bestsellersResponse.data) {
+          setBestSellers(bestsellersResponse.data.products || bestsellersResponse.data);
+        }
+        
+      } catch (error) {
+        console.error('Error fetching homepage products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchProducts();
+  }, []);
+  
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted">{t('common.loading', 'Loading...')}</p>
+        </div>
+      </div>
+    );
+  }
   
   return (
     <div>
@@ -18,25 +82,31 @@ const HomePage: React.FC = () => {
       
       <CategoriesSection />
       
-      <FeaturedProducts 
-        title="home.featured_products" 
-        products={featuredProducts} 
-        viewAllLink="/products?filter=featured" 
-      />
+      {featuredProducts.length > 0 && (
+        <FeaturedProducts 
+          title="home.featured_products" 
+          products={featuredProducts} 
+          viewAllLink="/products?filter=featured" 
+        />
+      )}
       
       <PromoBanner />
       
-      <FeaturedProducts 
-        title="home.new_arrivals" 
-        products={newArrivals} 
-        viewAllLink="/products?filter=new" 
-      />
+      {newArrivals.length > 0 && (
+        <FeaturedProducts 
+          title="home.new_arrivals" 
+          products={newArrivals} 
+          viewAllLink="/products?filter=new" 
+        />
+      )}
       
-      <FeaturedProducts 
-        title="home.bestsellers" 
-        products={bestSellers} 
-        viewAllLink="/products?filter=bestsellers" 
-      />
+      {bestSellers.length > 0 && (
+        <FeaturedProducts 
+          title="home.bestsellers" 
+          products={bestSellers} 
+          viewAllLink="/products?filter=bestsellers" 
+        />
+      )}
       
       <Brands />
       
