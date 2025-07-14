@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { Filter, SlidersHorizontal, ChevronDown, X } from 'lucide-react';
 import ProductGrid from '../components/product/ProductGrid';
-import { allProducts } from '../data/mockData';
+import { productAPI } from '../lib/api';
 import { Product } from '../types';
 import { categories } from '../components/layout/Layout';
 
@@ -11,6 +11,7 @@ const ProductsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();  
   const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [filtersOpen, setFiltersOpen] = useState(false);
   
   const currentLanguage = i18n.language;
@@ -29,80 +30,74 @@ const ProductsPage: React.FC = () => {
   
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   
-  useEffect(() => {
-    let filteredProducts = [...allProducts];
-    
-    // Filter by category
-    if (categoryParam) {
-      filteredProducts = filteredProducts.filter(product => product.category === categoryParam);
-    }
-    
-    // Filter by search query
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      filteredProducts = filteredProducts.filter(product => 
-        product.title.toLowerCase().includes(query) || 
-        product.description.toLowerCase().includes(query) ||
-        product.brand.toLowerCase().includes(query) ||
-        (product.tags && product.tags.some(tag => tag.toLowerCase().includes(query)))
-      );
-    }
-    
-    // Filter by special filter type
-    if (filterType) {
-      switch (filterType) {
-        case 'featured':
-          filteredProducts = filteredProducts.filter(product => product.isFeatured);
+  // Fetch products from database
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      
+      // Build query parameters
+      const params: any = {};
+      
+      if (categoryParam) params.category = categoryParam;
+      if (searchQuery) params.search = searchQuery;
+      if (filterType === 'featured') params.featured = 'true';
+      if (filterType === 'new') params.new = 'true';
+      if (priceRange.min > 0) params.minPrice = priceRange.min;
+      if (priceRange.max < 300000) params.maxPrice = priceRange.max;
+      
+      // Set sort parameter
+      let sortParam = '-createdAt'; // default newest first
+      switch (sortBy) {
+        case 'price-low':
+          sortParam = 'price';
           break;
-        case 'new':
-          filteredProducts = filteredProducts.filter(product => product.isNew);
+        case 'price-high':
+          sortParam = '-price';
           break;
-        case 'deals':
-          filteredProducts = filteredProducts.filter(product => product.discountPrice);
+        case 'rating':
+          sortParam = '-rating';
           break;
-        case 'bestsellers':
-          // For now, use the bestSellers mock data or price as a proxy
-          filteredProducts = filteredProducts.filter(product => product.reviewCount > 200);
+        case 'name':
+          sortParam = 'title';
+          break;
+        case 'newest':
+        default:
+          sortParam = '-createdAt';
           break;
       }
+      params.sort = sortParam;
+      
+      const response = await productAPI.getAll(params);
+      
+      if (response.success && response.data) {
+        let fetchedProducts = response.data.products || response.data;
+        
+        // Apply client-side brand filtering if needed
+        if (selectedBrands.length > 0) {
+          fetchedProducts = fetchedProducts.filter((product: Product) => 
+            selectedBrands.includes(product.brand)
+          );
+        }
+        
+        setProducts(fetchedProducts);
+      } else {
+        console.error('Failed to fetch products:', response.message);
+        setProducts([]);
+      }
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      setProducts([]);
+    } finally {
+      setLoading(false);
     }
-    
-    // Filter by price range
-    filteredProducts = filteredProducts.filter(product => {
-      const price = product.discountPrice || product.price;
-      return price >= priceRange.min && price <= priceRange.max;
-    });
-    
-    // Filter by brands
-    if (selectedBrands.length > 0) {
-      filteredProducts = filteredProducts.filter(product => 
-        selectedBrands.includes(product.brand.toLowerCase())
-      );
-    }
-    
-    // Sort products
-    switch (sortBy) {
-      case 'price_low_high':
-        filteredProducts.sort((a, b) => (a.discountPrice || a.price) - (b.discountPrice || b.price));
-        break;
-      case 'price_high_low':
-        filteredProducts.sort((a, b) => (b.discountPrice || b.price) - (a.discountPrice || a.price));
-        break;
-      case 'popular':
-        filteredProducts.sort((a, b) => b.reviewCount - a.reviewCount);
-        break;
-      case 'newest':
-      default:
-        // Assume id reflects newness for mock data
-        filteredProducts.sort((a, b) => Number(b.id) - Number(a.id));
-        break;
-    }
-    
-    setProducts(filteredProducts);
-  }, [categoryParam, searchQuery, filterType, sortBy, priceRange, selectedBrands]);
+  };
+  
+  useEffect(() => {
+    fetchProducts();
+  }, [categoryParam, searchQuery, filterType, sortBy, priceRange.min, priceRange.max, selectedBrands]);
   
   // Get all available brands from products
-  const brands = [...new Set(allProducts.map(product => product.brand.toLowerCase()))];
+  const brands = [...new Set(products.map(product => product.brand.toLowerCase()))];
   
   // Update sort parameter
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -318,7 +313,11 @@ const ProductsPage: React.FC = () => {
             </div>
           </div>
           
-          {products.length === 0 ? (
+          {loading ? (
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-8 text-center">
+              <p className="text-lg text-muted mb-4">{t('products.loading_products', 'Loading products...')}</p>
+            </div>
+          ) : products.length === 0 ? (
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-8 text-center">
               <p className="text-lg text-muted mb-4">{t('products.no_products_found', 'No products found')}</p>
               <button 

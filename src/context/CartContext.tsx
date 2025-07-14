@@ -32,7 +32,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     try {
       setLoading(true);
-      const response = await cartAPI.getCart();
+      const response = await cartAPI.get();
       
       if (response.success && response.data?.cart?.items) {
         // Transform API cart items to match frontend CartItem interface
@@ -66,7 +66,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     try {
       setLoading(true);
-      const response = await cartAPI.addToCart(product._id, quantity);
+      const response = await cartAPI.add(product._id, quantity);
       
       if (response.success) {
         await loadCart(); // Refresh cart from database
@@ -90,7 +90,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     try {
       setLoading(true);
-      const response = await cartAPI.removeFromCart(productId);
+      const response = await cartAPI.remove(productId);
       
       if (response.success) {
         await loadCart(); // Refresh cart from database
@@ -119,7 +119,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     try {
       setLoading(true);
-      const response = await cartAPI.updateQuantity(productId, quantity);
+      const response = await cartAPI.update(productId, quantity);
       
       if (response.success) {
         await loadCart(); // Refresh cart from database
@@ -143,7 +143,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     try {
       setLoading(true);
-      const response = await cartAPI.clearCart();
+      const response = await cartAPI.clear();
       
       if (response.success) {
         setCartItems([]);
