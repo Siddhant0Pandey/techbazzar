@@ -2,14 +2,14 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 const brands = [
-  { id: 'apple', name: 'Apple' },
-  { id: 'samsung', name: 'Samsung' },
-  { id: 'xiaomi', name: 'Xiaomi' },
-  { id: 'dell', name: 'Dell' },
-  { id: 'hp', name: 'HP' },
-  { id: 'sony', name: 'Sony' },
-  { id: 'asus', name: 'ASUS' },
-  { id: 'jbl', name: 'JBL' },
+  { id: 'dewalt', name: 'DeWalt' },
+  { id: 'stanley', name: 'Stanley' },
+  { id: 'makita', name: 'Makita' },
+  { id: 'bosch', name: 'Bosch' },
+  { id: 'craftworks', name: 'CraftWorks' },
+  { id: 'timbercraft', name: 'TimberCraft' },
+  { id: '3m', name: '3M' },
+  { id: 'festool', name: 'Festool' },
 ];
 
 const Brands: React.FC = () => {

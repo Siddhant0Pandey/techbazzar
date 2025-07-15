@@ -8,7 +8,7 @@ export interface StripeProduct {
 export const stripeProducts: StripeProduct[] = [
   {
     priceId: 'price_1RjcPkQGxX6RyzWMjSedIEEh',
-    name: 'TechBazaar Premium',
+            name: 'CraftWorks Premium',
     description: 'Premium tech marketplace subscription with exclusive features',
     mode: 'subscription'
   }

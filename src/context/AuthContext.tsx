@@ -92,7 +92,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.setItem('user', JSON.stringify(authData.user));
         localStorage.setItem('token', authData.token);
         
-        toast.success('Registration successful! Welcome to TechBazaar!');
+        toast.success('Registration successful! Welcome to CraftWorks!');
       } else {
         throw new Error(response.message || 'Registration failed');
       }
@@ -145,7 +145,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       { className: 'min-h-screen flex items-center justify-center' },
       React.createElement(LoadingSpinner, {
         size: 'lg',
-        text: 'Loading TechBazaar...',
+        text: 'Loading CraftWorks...',
         color: 'primary'
       })
     );

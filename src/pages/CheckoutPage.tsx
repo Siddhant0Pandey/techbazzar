@@ -431,7 +431,7 @@ const CheckoutPage: React.FC = () => {
                               <p>{t('checkout.bank_info', 'Please transfer the total amount to the following bank account:')}</p>
                               <p className="mt-2">
                                 <span className="font-medium">{t('checkout.bank_name', 'Bank Name')}:</span> Nepal Bank Ltd.<br />
-                                <span className="font-medium">{t('checkout.account_name', 'Account Name')}:</span> TechBazaar Pvt. Ltd.<br />
+                                <span className="font-medium">{t('checkout.account_name', 'Account Name')}:</span> CraftWorks Pvt. Ltd.<br />
                                 <span className="font-medium">{t('checkout.account_number', 'Account Number')}:</span> 01234567890<br />
                               </p>
                             </div>

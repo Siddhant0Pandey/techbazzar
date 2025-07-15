@@ -78,7 +78,7 @@ const AdminLayout: React.FC = () => {
         <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center">
             <Package className="h-8 w-8 text-primary" />
-            <span className="ml-2 text-lg font-bold text-foreground">TechBazaar</span>
+                            <span className="ml-2 text-lg font-bold text-foreground">CraftWorks</span>
           </div>
           <button
             className="lg:hidden text-muted hover:text-foreground"

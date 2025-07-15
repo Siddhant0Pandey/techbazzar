@@ -26,7 +26,7 @@ const Footer: React.FC<FooterProps> = ({ categories }) => {
           <div>
             <div className="flex items-center mb-4">
               <ShoppingCart className="h-8 w-8 text-primary" />
-              <span className="ml-2 text-xl font-bold">TechBazaar</span>
+              <span className="ml-2 text-xl font-bold">CraftWorks</span>
             </div>
             <p className="text-gray-400 mb-4">
               {t('footer.company_description', "Nepal's leading online store for technology products with nationwide delivery and excellent customer service.")}
@@ -125,7 +125,7 @@ const Footer: React.FC<FooterProps> = ({ categories }) => {
               </li>
               <li className="flex">
                 <Mail className="h-5 w-5 text-primary mr-2 flex-shrink-0" />
-                <span className="text-gray-400">info@techbazaar.com.np</span>
+                                  <span className="text-gray-400">info@craftworks.com.np</span>
               </li>
             </ul>
           </div>
@@ -144,7 +144,7 @@ const Footer: React.FC<FooterProps> = ({ categories }) => {
 
         {/* Copyright */}
         <div className="text-center text-gray-500 text-sm">
-          <p>© {new Date().getFullYear()} TechBazaar. {t('footer.all_rights_reserved', 'All Rights Reserved')}</p>
+          <p>© {new Date().getFullYear()} CraftWorks. {t('footer.all_rights_reserved', 'All Rights Reserved')}</p>
         </div>
       </div>
     </footer>
